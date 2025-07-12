@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PCKList" load_steps=2 format=3 uid="uid://q5dhb7h0qrsj"]
+
+[ext_resource type="Script" uid="uid://5qt2cxvec7aa" path="res://addons/PackExporter/exportListResource.gd" id="1_duoek"]
+
+[resource]
+script = ExtResource("1_duoek")
+folders = Dictionary[String, String]({
+"0000": "res://Core-Pack",
+"0001": "res://Audio-Pack",
+"0002": "res://Input-Pack"
+})
+metadata/_custom_type_script = "uid://5qt2cxvec7aa"

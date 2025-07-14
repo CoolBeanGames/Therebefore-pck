@@ -15,6 +15,10 @@ run/main_scene="uid://cuv8tui3qqs6f"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Game="*res://game_global.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/PackExporter/plugin.cfg")

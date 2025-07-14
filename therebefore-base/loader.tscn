@@ -5,9 +5,10 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyeqr"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="loader" type="Node2D" node_paths=PackedStringArray("status_label")]
+[node name="Game" type="Node" node_paths=PackedStringArray("status_label", "Canvas")]
 script = ExtResource("1_hyeqr")
 status_label = NodePath("CanvasLayer/MarginContainer/status")
+Canvas = NodePath("CanvasLayer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true

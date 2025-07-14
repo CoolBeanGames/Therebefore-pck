@@ -1,8 +1,10 @@
 extends Node
 
 @export var status_label: Label = null
+@export var Canvas : CanvasLayer
 
 var pck_search_directory_path: String
+var _loader_scripts := []  # Stores dictionaries with { path: String, pack: String }
 
 func _ready():
 	print("--- MinimalPckLoader Initializing ---")
@@ -10,11 +12,14 @@ func _ready():
 		pck_search_directory_path = "res://Packages"
 	else:
 		pck_search_directory_path = OS.get_executable_path().get_base_dir().path_join("Packages")
+
 	_update_status("Looking for PCK files...")
 
 	await get_tree().process_frame
 
 	var pck_files = _scan_for_pcks(pck_search_directory_path)
+	pck_files.sort()  # Sort by filename: 0000.pck, 0001.pck, etc.
+
 	if pck_files.is_empty():
 		_update_status("No PCK files found.")
 		return
@@ -29,10 +34,18 @@ func _ready():
 			_update_status("ERROR loading: %s" % pck_name)
 			continue
 
-		await _try_run_loader_script()
+		_cache_loader_scripts_for_pck(pck_name)
+
+	_update_status("All PCKs mounted. Executing loaders...")
+	await get_tree().process_frame
+
+	_run_all_cached_loaders()
 
 	_update_status("All PCKs processed.")
+	await 0.5
+	Canvas.queue_free()
 
+# --- Helper: Scan for .pck files recursively ---
 func _scan_for_pcks(dir_path: String) -> Array:
 	var results := []
 	var dir = DirAccess.open(dir_path)
@@ -58,25 +71,60 @@ func _scan_for_pcks(dir_path: String) -> Array:
 	dir.list_dir_end()
 	return results
 
-func _try_run_loader_script():
-	const loader_path = "res://load.gd"
-	if not ResourceLoader.exists(loader_path):
-		print("No load.gd found in this PCK.")
-		return
+# --- Helper: Cache any load.gd found after mounting a PCK ---
+func _cache_loader_scripts_for_pck(pck_name: String):
+	var all_load_paths = _find_all_load_scripts("res://")
+	for path in all_load_paths:
+		if path in _loader_scripts.map(func(it): return it.path):
+			continue  # Already cached
+		_loader_scripts.append({ "path": path, "pack": pck_name })
 
-	var script = ResourceLoader.load(loader_path)
-	if script == null or not (script is GDScript):
-		printerr("Invalid script at: %s" % loader_path)
-		return
+# --- Helper: Recursively find all res://*/load.gd files ---
+func _find_all_load_scripts(dir_path: String) -> Array:
+	var found := []
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		return found
 
-	var instance = script.new()
-	if not instance.has_method("load"):
-		printerr("Script at %s has no load() method." % loader_path)
-		return
+	dir.list_dir_begin()
+	while true:
+		var fname = dir.get_next()
+		if fname == "":
+			break
+		if fname == "." or fname == "..":
+			continue
 
-	print("Calling load() on %s" % loader_path)
-	instance.load()
+		var full_path = dir_path.path_join(fname)
 
+		if dir.current_is_dir():
+			found.append_array(_find_all_load_scripts(full_path))
+		elif fname == "load.gd":
+			found.append(full_path)
+
+	dir.list_dir_end()
+	return found
+
+# --- Call load() on each cached script in PCK load order ---
+func _run_all_cached_loaders():
+	_loader_scripts.sort_custom(func(a, b): return a.pack < b.pack)
+
+	for entry in _loader_scripts:
+		var path = entry.path
+		print("Calling load() on %s" % path)
+
+		var script = ResourceLoader.load(path)
+		if script == null or not (script is GDScript):
+			printerr("Invalid script at: %s" % path)
+			continue
+
+		var instance = script.new()
+		if not instance.has_method("load"):
+			printerr("Script at %s has no load() method." % path)
+			continue
+
+		instance.load()
+
+# --- UI + print ---
 func _update_status(msg: String):
 	if status_label:
 		status_label.text = msg

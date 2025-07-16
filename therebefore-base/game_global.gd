@@ -5,6 +5,9 @@ class_name game
 #as loaded in resource packs (pck files)
 
 @export var globals : Dictionary[String,Node]
+@export var tree_root : Node
+@export var ui_root : CanvasLayer
+
 
 func _process(delta: float) -> void:
 	for k in globals:
@@ -22,7 +25,8 @@ func add_global(key : String, global : Node):
 			print("global already exists in global: ", global.name)
 			return
 	globals[key] = global
-	global._ready()
+	if global.has_method("_ready"):
+		global._ready()
 	print("successfully added global script")
 
 #attempts to remove a value by key

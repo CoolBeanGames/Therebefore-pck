@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://csfgjiyqqyw8f"]
+
+[ext_resource type="Texture2D" uid="uid://dxpl0dc8i865d" path="res://Core-Pack/Textures/powered_by_godot_splash.png" id="1_2vvfe"]
+[ext_resource type="AudioStream" uid="uid://bxqwt5m0m82p6" path="res://Core-Pack/sounds/sting.mp3" id="2_2vvfe"]
+
+[node name="PoweredByGodot" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_2vvfe")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_2vvfe")

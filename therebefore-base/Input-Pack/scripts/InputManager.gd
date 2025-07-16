@@ -59,6 +59,7 @@ func _process(delta: float) -> void:
 	if move_axis != Vector2.ZERO:
 		movement_input.emit(move_axis)
 
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		look_axis = event.relative

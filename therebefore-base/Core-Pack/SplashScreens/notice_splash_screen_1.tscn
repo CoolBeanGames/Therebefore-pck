@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://do31idep4lj55"]
+
+[ext_resource type="AudioStream" uid="uid://bxqwt5m0m82p6" path="res://Core-Pack/sounds/sting.mp3" id="1_n358h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4g51e"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="NoticeSplashScreen1" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4g51e")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "This is a constantly evolving game. 
+Content can and will be removed at any time.
+
+if you are seeing this you are a tester..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_n358h")

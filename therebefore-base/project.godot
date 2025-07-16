@@ -15,13 +15,18 @@ run/main_scene="uid://cuv8tui3qqs6f"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://x1p0figb8u7d"
+
 [autoload]
 
 Game="*res://game_global.gd"
+Enums="*res://enums.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/PackExporter/plugin.cfg")
+enabled=PackedStringArray("res://addons/PackExporter/plugin.cfg", "res://addons/ScanRes/plugin.cfg")
 
 [input]
 
@@ -94,3 +99,4 @@ right={
 [rendering]
 
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

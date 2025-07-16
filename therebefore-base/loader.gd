@@ -7,6 +7,8 @@ var pck_search_directory_path: String
 var _loader_scripts := []  # Stores dictionaries with { path: String, pack: String }
 
 func _ready():
+	Game.tree_root = self     #set the root for pushing scenes into the game
+	Game.ui_root = $"UI_Root"
 	print("--- MinimalPckLoader Initializing ---")
 	if OS.has_feature("editor"):
 		pck_search_directory_path = "res://Packages"
@@ -43,6 +45,8 @@ func _ready():
 
 	_update_status("All PCKs processed.")
 	await 0.5
+	var signals = Game.get_global("signal_bus")
+	signals.loading_finished.emit()
 	Canvas.queue_free()
 
 # --- Helper: Scan for .pck files recursively ---

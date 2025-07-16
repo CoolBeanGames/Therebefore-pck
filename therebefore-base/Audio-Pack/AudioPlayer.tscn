@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs3gl0hx6fgjp"]
+
+[ext_resource type="Script" uid="uid://bujj3d8u4xpk" path="res://Audio-Pack/audio_player.gd" id="1_melpk"]
+
+[node name="AudioPlayer" type="Node" node_paths=PackedStringArray("global_player", "local_player")]
+script = ExtResource("1_melpk")
+global_player = NodePath("2D_player")
+local_player = NodePath("3D_player")
+
+[node name="2D_player" type="AudioStreamPlayer" parent="."]
+
+[node name="3D_player" type="AudioStreamPlayer3D" parent="."]

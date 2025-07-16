@@ -7,13 +7,13 @@ bg_color = Color(0, 0, 0, 1)
 
 [node name="Game" type="Node" node_paths=PackedStringArray("status_label", "Canvas")]
 script = ExtResource("1_hyeqr")
-status_label = NodePath("CanvasLayer/MarginContainer/status")
-Canvas = NodePath("CanvasLayer")
+status_label = NodePath("Loading_UI/MarginContainer/status")
+Canvas = NodePath("Loading_UI")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Loading_UI" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="Panel" type="Panel" parent="Loading_UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hyeqr")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="Loading_UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,15 +34,17 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="status" type="Label" parent="CanvasLayer/MarginContainer"]
+[node name="status" type="Label" parent="Loading_UI/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="Label" type="Label" parent="CanvasLayer/MarginContainer"]
+[node name="Label" type="Label" parent="Loading_UI/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Now Loading  "
 horizontal_alignment = 2
+
+[node name="UI_Root" type="CanvasLayer" parent="."]
